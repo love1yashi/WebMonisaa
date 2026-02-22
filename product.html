@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | MONISA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal/modal.css">
+    <link rel="stylesheet" href="cart/cart.css">
+    <link rel="stylesheet" href="user/user.css">
+    <link rel="stylesheet" href="admin/admin.css">
+    <style>
+        /* Product Detail Page Styles */
+.product-detail-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .product-gallery {
+            position: relative;
+        }
+
+        .main-image-container {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: #f9f9f9;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .main-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .thumbnail {
+            aspect-ratio: 1;
+            background: #f9f9f9;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #000;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding-top: 20px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #000;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .color-section {
+            margin-bottom: 30px;
+        }
+
+        .color-section h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .color-option:hover,
+        .color-option.active {
+            border-color: #000;
+            transform: scale(1.1);
+        }
+
+        .color-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 14px;
+            text-shadow: 0 0 2px rgba(0,0,0,0.5);
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .add-to-cart-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .quantity-selector input {
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .add-to-cart-detail-btn {
+            flex: 1;
+            padding: 15px 40px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-detail-btn:hover {
+            background-color: #333;
+        }
+
+        .product-not-found {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .product-not-found h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .product-not-found a {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                padding-top: 100px;
+            }
+        }
+        
+/* Product page header - always show white background */
+        .hero-section {
+            height: auto;
+            min-height: auto;
+        }
+        
+        .hero-section header {
+            background-color: #fff;
+            position: relative;
+        }
+        
+        .hero-section .logo {
+            color: #000;
+        }
+        
+        .hero-section .nav-item > a {
+            color: #000;
+        }
+        
+        .hero-section .header-icons img {
+            filter: brightness(1) invert(0);
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        <header>
+            <a href="index.html" class="logo">MONISA MODESTY</a>
+            <nav class="main-menu">
+                <div class="nav-item">
+                    <a href="index.html?category=dress">DRESS •</a>
+                    <div class="dropdown">
+                        <a href="index.html?category=hayat">HAYAT DRESS</a>
+                        <a href="index.html?category=muneerah">MUNEERAH DRESS</a>
+                        <a href="index.html?category=nyla">NYLA DRESS</a>
+                        <a href="index.html?category=hafsa">HAFSA DRESS</a>
+                        <a href="index.html?category=rashida">RASHIDA DRESS</a>
+                        <a href="index.html?category=hilyah">HILYAH LOOSE TYPE DRESS</a>
+                        <a href="index.html?category=habeebah">HABEEBAH DRESS</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="index.html?category=scarves">SCARVES •</a>
+                    <div class="dropdown">
+                        <a href="index.html?category=frenchmousse">FRENCH MOUSE</a>
+                        <a href="index.html?category=belgian">BELGIAN HIJAB</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="index.html?category=niqab">NIQAB •</a>
+                    <div class="dropdown">
+                        <a href="index.html?category=niqab">SINGLE CURVE NIQAB</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="header-icons">
+                <img src="https://img.icons8.com/material-outlined/24/search.png" alt="Search" class="search-icon">
+                <div class="user-menu-container">
+                    <img src="https://img.icons8.com/material-outlined/24/user.png" alt="User" class="user-icon" id="userIcon">
+                    <span class="admin-badge" id="adminBadge" style="display: none;">👑</span>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div id="loggedOutMenu">
+                            <button class="dropdown-btn" id="loginBtn">Login</button>
+                            <button class="dropdown-btn" id="signupBtn">Sign Up</button>
+                            <button class="dropdown-btn admin-login-btn" id="adminLoginBtn">Admin Login</button>
+                        </div>
+                        <div id="loggedInMenu" style="display: none;">
+                            <p class="welcome-msg" id="welcomeMsg">Welcome!</p>
+                            <button class="dropdown-btn" id="myOrdersBtn">My Orders</button>
+                            <button class="dropdown-btn" id="logoutBtn">Logout</button>
+                        </div>
+                        <div id="adminLoggedInMenu" style="display: none;">
+                            <div class="admin-indicator">
+                                <span class="admin-crown">👑</span>
+                                <span class="admin-label">ADMIN LOGGED IN</span>
+                            </div>
+                            <p class="welcome-msg" id="adminWelcomeMsg">Admin Panel</p>
+                            <button class="dropdown-btn admin-dashboard-btn" id="openAdminBtn">Open Dashboard</button>
+                            <button class="dropdown-btn admin-logout-btn" id="adminLogoutBtn">Admin Logout</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-container">
+                    <img src="https://img.icons8.com/material-outlined/24/shopping-bag.png" alt="Cart" class="cart-icon" id="cartIcon">
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+            </div>
+        </header>
+    </section>
+
+    <div class="product-detail-container" id="productDetail">
+        <!-- Product details will be loaded dynamically -->
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+            <span class="close-cart" id="closeCart">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart-msg">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total selected-total">
+                <span id="selectedTotal">Selected: ₱0.00</span>
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₱0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="modal/modal.js"></script>
+    <script src="auth/auth.js"></script>
+    <script src="user/user.js"></script>
+    <script src="admin/admin.js"></script>
+    <script src="cart/cart.js"></script>
+    <script>
+        // Product data with all color variants
+        const productsData = {
+            // Scarves
+            's1': {
+                id: 's1',
+                name: 'FRENCH MOUSSE',
+                price: 39,
+                category: 'scarves',
+                description: 'Premium French Mousse hijab made from high-quality fabric. Soft, breathable, and perfect for everyday wear.',
+                colors: [
+                    { name: 'Burgundy', image: 'images/frenchmousse1.jpg', color: '#721c24' },
+                    { name: 'Brown', image: 'images/frenchmousse2.jpg', color: '#5e4d44' },
+                    { name: 'Black', image: 'images/frenchmousse3.jpg', color: '#333' },
+                    { name: 'Navy', image: 'images/frenchmousse4.jpg', color: '#1a365d' },
+                    { name: 'Dusty Pink', image: 'images/frenchmousse1.5.jpg', color: '#d4a5a5' },
+                    { name: 'Camel', image: 'images/frenchmousse2.5.jpg', color: '#c19a6b' },
+                    { name: 'Grey', image: 'images/frenchmousse3.5.jpg', color: '#6c757d' },
+                    { name: 'Teal', image: 'images/frenchmousse4.5.jpg', color: '#20c997' }
+                ]
+            },
+            's2': {
+                id: 's2',
+                name: 'BELGIAN HIJAB',
+                price: 59,
+                category: 'scarves',
+                description: 'Elegant Belgian Hijab with premium quality fabric. Perfect for formal occasions and everyday elegance.',
+                colors: [
+                    { name: 'Black', image: 'images/belgian1.jpg', color: '#000' },
+                    { name: 'Beige', image: 'images/belgian2.jpg', color: '#a39081' },
+                    { name: 'Camel', image: 'images/belgian3.jpg', color: '#8b735b' },
+                    { name: 'Grey', image: 'images/belgian4.jpg', color: '#6c757d' }
+                ]
+            },
+            // Dresses
+            'd1': {
+                id: 'd1',
+                name: 'HAYAT DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Beautiful Hayat Dress - elegant and modest design perfect for any occasion.',
+                colors: [
+                    { name: 'Default', image: 'images/hayatdress.jpg', color: '#721c24' }
+                ]
+            },
+            'd2': {
+                id: 'd2',
+                name: 'MUNEERAH DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Stunning Muneerah Dress with modest design and premium fabric.',
+                colors: [
+                    { name: 'Default', image: 'images/muneerahdress.jpg', color: '#5e4d44' }
+                ]
+            },
+            'd3': {
+                id: 'd3',
+                name: 'NYLA DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Elegant Nyla Dress - perfect blend of modesty and style.',
+                colors: [
+                    { name: 'Default', image: 'images/nylahdress.jpg', color: '#333' }
+                ]
+            },
+            'd4': {
+                id: 'd4',
+                name: 'HAFSA DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Modest Hafsa Dress with comfortable fit and beautiful design.',
+                colors: [
+                    { name: 'Default', image: 'images/hafsahdress.jpg', color: '#1a365d' }
+                ]
+            },
+            'd5': {
+                id: 'd5',
+                name: 'RASHIDA DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Beautiful Rashida Dress - elegant choice for modest fashion.',
+                colors: [
+                    { name: 'Default', image: 'images/rashidaddress.jpg', color: '#d4a5a5' }
+                ]
+            },
+            'd6': {
+                id: 'd6',
+                name: 'HILYAH LOOSE TYPE DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Comfortable Hilyah Loose Type Dress - perfect for everyday wear.',
+                colors: [
+                    { name: 'Default', image: 'images/hilyadress.jpg', color: '#c19a6b' }
+                ]
+            },
+            'd7': {
+                id: 'd7',
+                name: 'HABEEBAH DRESS',
+                price: 89,
+                category: 'dress',
+                description: 'Lovely Habeebah Dress - modest and fashionable.',
+                colors: [
+                    { name: 'Default', image: 'images/habeebahdress.jpg', color: '#20c997' }
+                ]
+            },
+            // Niqab
+            'n1': {
+                id: 'n1',
+                name: 'SINGLE CURVE NIQAB',
+                price: 59,
+                category: 'niqab',
+                description: 'Elegant Single Curve Niqab - comfortable and modest.',
+                colors: [
+                    { name: 'Black', image: 'images/niqab1.jpg', color: '#000' },
+                    { name: 'Brown', image: 'images/niqab1.jpg', color: '#5e4d44' },
+                    { name: 'Charcoal', image: 'images/niqab1.jpg', color: '#333' }
+                ]
+            }
+        };
+
+        // Load product details based on URL parameter
+        function loadProductDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const container = document.getElementById('productDetail');
+
+            if (!productId || !productsData[productId]) {
+                container.innerHTML = `
+                    <div class="product-not-found">
+                        <h2>Product Not Found</h2>
+                        <p>The product you're looking for doesn't exist.</p>
+                        <a href="index.html">← Back to Home</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const product = productsData[productId];
+            let selectedColor = product.colors[0];
+
+            // Render product detail
+            container.innerHTML = `
+                <div class="product-gallery">
+                    <div class="main-image-container">
+                        <img src="${selectedColor.image}" alt="${product.name}" id="mainImage">
+                    </div>
+                    <div class="thumbnail-grid">
+                        ${product.colors.map((color, index) => `
+                            <div class="thumbnail ${index === 0 ? 'active' : ''}" data-image="${color.image}" data-index="${index}">
+                                <img src="${color.image}" alt="${color.name}">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="product-info">
+                    <a href="index.html" class="back-btn">← Back to Collection</a>
+                    <h1 class="product-title">${product.name}</h1>
+                    <div class="product-price">₱${product.price.toFixed(2)}</div>
+                    
+                    ${product.colors.length > 1 ? `
+                    <div class="color-section">
+                        <h3>Select Color: <span id="selectedColorName">${selectedColor.name}</span></h3>
+                        <div class="color-options">
+                            ${product.colors.map((color, index) => `
+                                <div class="color-option ${index === 0 ? 'active selected' : ''}" 
+                                     style="background-color: ${color.color};" 
+                                     data-image="${color.image}" 
+                                     data-name="${color.name}"
+                                     data-index="${index}"
+                                     title="${color.name}">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <p class="product-description">${product.description}</p>
+                    
+                    <div class="add-to-cart-section">
+                        <div class="quantity-selector">
+                            <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                            <input type="number" id="productQty" value="1" min="1" readonly>
+                            <button class="qty-btn" onclick="updateQty(1)">+</button>
+                        </div>
+                        <button class="add-to-cart-detail-btn" onclick="addToCartFromDetail('${product.id}', '${selectedColor.name}')">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners for thumbnails
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    const image = this.dataset.image;
+                    const index = parseInt(this.dataset.index);
+                    
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.getElementById('mainImage').src = image;
+                    
+                    // Update color selection
+                    const colorOptions = document.querySelectorAll('.color-option');
+                    colorOptions.forEach(opt => opt.classList.remove('active', 'selected'));
+                    if (colorOptions[index]) {
+                        colorOptions[index].classList.add('active', 'selected');
+                        document.getElementById('selectedColorName').textContent = product.colors[index].name;
+                    }
+                });
+            });
+
+            // Add event listeners for color options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const image = this.dataset.image;
+                    const name = this.dataset.name;
+                    const index = parseInt(this.dataset.index);
+                    
+                    document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active', 'selected'));
+                    this.classList.add('active', 'selected');
+                    
+                    document.getElementById('mainImage').src = image;
+                    document.getElementById('selectedColorName').textContent = name;
+                    
+                    // Update thumbnail too
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.thumbnail')[index].classList.add('active');
+                });
+            });
+        }
+
+        function updateQty(delta) {
+            const input = document.getElementById('productQty');
+            let value = parseInt(input.value) + delta;
+            if (value < 1) value = 1;
+            input.value = value;
+        }
+
+        function addToCartFromDetail(productId, colorName) {
+            const qty = parseInt(document.getElementById('productQty').value);
+            const product = productsData[productId];
+            
+            if (window.cartFunctions) {
+                const cartItem = {
+                    id: productId + '-' + colorName.toLowerCase().replace(/\s/g, ''),
+                    name: product.name,
+                    price: product.price,
+                    color: colorName,
+                    quantity: qty,
+                    image: product.colors.find(c => c.name === colorName)?.image || product.colors[0].image
+                };
+                
+                window.cartFunctions.addToCart(cartItem);
+                showToast(`Added ${product.name} (${colorName}) to cart!`, 'success');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadProductDetail);
+    </script>
+</body>
+</html>
