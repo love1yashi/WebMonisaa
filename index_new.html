@@ -1,532 +1,742 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MONISA | Modesty At Ease</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modal/modal.css">
-    <link rel="stylesheet" href="cart/cart.css">
-    <link rel="stylesheet" href="user/user.css">
-    <link rel="stylesheet" href="admin/admin.css">
-</head>
-<body>
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="modal/modal.css" />
+    <link rel="stylesheet" href="cart/cart.css" />
+    <link rel="stylesheet" href="user/user.css" />
+    <link rel="stylesheet" href="admin/admin.css" />
+  </head>
+  <body>
     <section class="hero-section">
-        <header>
-            <a href="#" class="logo">MONISA MODESTY</a>
-            <nav class="main-menu">
-                <div class="nav-item">
-                    <a href="#">DRESS •</a>
-                    <div class="dropdown">
-                        <a href="#">HAYAT DRESS</a>
-                        <a href="#">MUNEERAH DRESS</a>
-                        <a href="#">NYLA DRESS</a>
-                        <a href="#">HAFSA DRESS</a>
-                        <a href="#">RASHIDA DRESS</a>
-                        <a href="#">HILYAH LOOSE TYPE DRESS</a>
-                        <a href="#">HABEEBAH DRESS</a>
-                    </div>
-                </div>
-                <div class="nav-item">
-                    <a href="#">SCARVES •</a>
-                    <div class="dropdown">
-                        <a href="#">FRENCH MOUSE</a>
-                        <a href="#">BELGIAN HIJAB</a>
-                    </div>
-                </div>
-                <div class="nav-item">
-                    <a href="#">NIQAB •</a>
-                    <div class="dropdown">
-                        <a href="#">SINGLE CURVE NIQAB</a>
-                    </div>
-                </div>
-            </nav>
-    <div class="header-icons">
-                <img src="https://img.icons8.com/material-outlined/24/search.png" alt="Search" class="search-icon">
-                <div class="user-menu-container">
-                    <img src="https://img.icons8.com/material-outlined/24/user.png" alt="User" class="user-icon" id="userIcon">
-                    <span class="admin-badge" id="adminBadge" style="display: none;">👑</span>
-                    <div class="user-dropdown" id="userDropdown">
-                        <div id="loggedOutMenu">
-                            <button class="dropdown-btn" id="loginBtn">Login</button>
-                            <button class="dropdown-btn" id="signupBtn">Sign Up</button>
-                            <button class="dropdown-btn admin-login-btn" id="adminLoginBtn">Admin Login</button>
-                        </div>
-                        <div id="loggedInMenu" style="display: none;">
-                            <p class="welcome-msg" id="welcomeMsg">Welcome!</p>
-                            <button class="dropdown-btn" id="myOrdersBtn">My Orders</button>
-                            <button class="dropdown-btn" id="logoutBtn">Logout</button>
-                        </div>
-                        <div id="adminLoggedInMenu" style="display: none;">
-                            <div class="admin-indicator">
-                                <span class="admin-crown">👑</span>
-                                <span class="admin-label">ADMIN LOGGED IN</span>
-                            </div>
-                            <p class="welcome-msg" id="adminWelcomeMsg">Admin Panel</p>
-                            <button class="dropdown-btn admin-dashboard-btn" id="openAdminBtn">Open Dashboard</button>
-                            <button class="dropdown-btn admin-logout-btn" id="adminLogoutBtn">Admin Logout</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-container">
-                    <img src="https://img.icons8.com/material-outlined/24/shopping-bag.png" alt="Cart" class="cart-icon" id="cartIcon">
-                    <span class="cart-badge" id="cartBadge">0</span>
-                </div>
+      <header>
+        <a href="#" class="logo">MONISA MODESTY</a>
+        <nav class="main-menu">
+          <div class="nav-item">
+            <a href="#">DRESS •</a>
+            <div class="dropdown">
+              <a href="#">HAYAT DRESS</a>
+              <a href="#">MUNEERAH DRESS</a>
+              <a href="#">NYLA DRESS</a>
+              <a href="#">HAFSA DRESS</a>
+              <a href="#">RASHIDA DRESS</a>
+              <a href="#">HILYAH LOOSE TYPE DRESS</a>
+              <a href="#">HABEEBAH DRESS</a>
             </div>
-        </header>
-        <div class="slider-container">
-            <div class="slide" style="background-image: url('home.webp');"></div>
-            <div class="slide" style="background-image: url('homee.webp');"></div>
+          </div>
+          <div class="nav-item">
+            <a href="#">SCARVES •</a>
+            <div class="dropdown">
+              <a href="#">FRENCH MOUSE</a>
+              <a href="#">BELGIAN HIJAB</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <a href="#">NIQAB •</a>
+            <div class="dropdown">
+              <a href="#">SINGLE CURVE NIQAB</a>
+            </div>
+          </div>
+        </nav>
+        <div class="header-icons">
+          <img
+            src="https://img.icons8.com/material-outlined/24/search.png"
+            alt="Search"
+            class="search-icon"
+          />
+          <div class="user-menu-container">
+            <img
+              src="https://img.icons8.com/material-outlined/24/user.png"
+              alt="User"
+              class="user-icon"
+              id="userIcon"
+            />
+            <span class="admin-badge" id="adminBadge" style="display: none"
+              >👑</span
+            >
+            <div class="user-dropdown" id="userDropdown">
+              <div id="loggedOutMenu">
+                <button class="dropdown-btn" id="loginBtn">Login</button>
+                <button class="dropdown-btn" id="signupBtn">Sign Up</button>
+                <button class="dropdown-btn admin-login-btn" id="adminLoginBtn">
+                  Admin Login
+                </button>
+              </div>
+              <div id="loggedInMenu" style="display: none">
+                <p class="welcome-msg" id="welcomeMsg">Welcome!</p>
+                <button class="dropdown-btn" id="myOrdersBtn">My Orders</button>
+                <button class="dropdown-btn" id="logoutBtn">Logout</button>
+              </div>
+              <div id="adminLoggedInMenu" style="display: none">
+                <div class="admin-indicator">
+                  <span class="admin-crown">👑</span>
+                  <span class="admin-label">ADMIN LOGGED IN</span>
+                </div>
+                <p class="welcome-msg" id="adminWelcomeMsg">Admin Panel</p>
+                <button
+                  class="dropdown-btn admin-dashboard-btn"
+                  id="openAdminBtn"
+                >
+                  Open Dashboard
+                </button>
+                <button
+                  class="dropdown-btn admin-logout-btn"
+                  id="adminLogoutBtn"
+                >
+                  Admin Logout
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="cart-container">
+            <img
+              src="https://img.icons8.com/material-outlined/24/shopping-bag.png"
+              alt="Cart"
+              class="cart-icon"
+              id="cartIcon"
+            />
+            <span class="cart-badge" id="cartBadge">0</span>
+          </div>
         </div>
-        <div class="hero-content">
-            <p>MODESTY AT EASE</p>
-            <h1>MONISA</h1>
-        </div>
-        <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
+      </header>
+      <div class="slider-container">
+        <div
+          class="slide"
+          style="background-image: url(&quot;home.webp&quot;)"
+        ></div>
+        <div
+          class="slide"
+          style="background-image: url(&quot;homee.webp&quot;)"
+        ></div>
+      </div>
+      <div class="hero-content">
+        <p>MODESTY AT EASE</p>
+        <h1>MONISA</h1>
+      </div>
+      <div class="slider-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+      </div>
     </section>
 
     <section class="collection-summary">
-        <div class="col-card"><img src="https://via.placeholder.com/500x620?text=PRINTED"><div class="col-overlay">Printed</div></div>
-        <div class="col-card"><img src="https://via.placeholder.com/500x620?text=APPAREL"><div class="col-overlay">Apparel</div></div>
-        <div class="col-card"><img src="https://via.placeholder.com/500x620?text=SHAWL"><div class="col-overlay">Shawl</div></div>
-        <div class="col-card"><img src="https://via.placeholder.com/500x620?text=INSTANT"><div class="col-overlay">Instant</div></div>
+      <div class="col-card">
+        <img src="https://via.placeholder.com/500x620?text=PRINTED" />
+        <div class="col-overlay">Printed</div>
+      </div>
+      <div class="col-card">
+        <img src="https://via.placeholder.com/500x620?text=APPAREL" />
+        <div class="col-overlay">Apparel</div>
+      </div>
+      <div class="col-card">
+        <img src="https://via.placeholder.com/500x620?text=SHAWL" />
+        <div class="col-overlay">Shawl</div>
+      </div>
+      <div class="col-card">
+        <img src="https://via.placeholder.com/500x620?text=INSTANT" />
+        <div class="col-overlay">Instant</div>
+      </div>
     </section>
 
     <h2 class="section-title">Dress Collection</h2>
     <div class="tabs">
-        <button class="tab-btn active">All</button>
+      <button class="tab-btn active">All</button>
     </div>
 
     <div class="product-grid" id="rayaProducts">
-        <div class="product-card" data-id="d1" data-name="HAYAT DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=HAYAT+DRESS" alt="HAYAT DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">HAYAT DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+      <div
+        class="product-card"
+        data-id="d1"
+        data-name="HAYAT DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=HAYAT+DRESS"
+            alt="HAYAT DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d2" data-name="MUNEERAH DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=MUNEERAH+DRESS" alt="MUNEERAH DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">MUNEERAH DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">HAYAT DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d2"
+        data-name="MUNEERAH DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=MUNEERAH+DRESS"
+            alt="MUNEERAH DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d3" data-name="NYLA DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=NYLA+DRESS" alt="NYLA DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">NYLA DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">MUNEERAH DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d3"
+        data-name="NYLA DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=NYLA+DRESS"
+            alt="NYLA DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d4" data-name="HAFSA DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=HAFSA+DRESS" alt="HAFSA DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">HAFSA DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">NYLA DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d4"
+        data-name="HAFSA DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=HAFSA+DRESS"
+            alt="HAFSA DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d5" data-name="RASHIDA DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=RASHIDA+DRESS" alt="RASHIDA DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">RASHIDA DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">HAFSA DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d5"
+        data-name="RASHIDA DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=RASHIDA+DRESS"
+            alt="RASHIDA DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d6" data-name="HILYAH LOOSE TYPE DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=HILYAH+LOOSE+TYPE+DRESS" alt="HILYAH LOOSE TYPE DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">HILYAH LOOSE TYPE DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">RASHIDA DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d6"
+        data-name="HILYAH LOOSE TYPE DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=HILYAH+LOOSE+TYPE+DRESS"
+            alt="HILYAH LOOSE TYPE DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
-        <div class="product-card" data-id="d7" data-name="HABEEBAH DRESS" data-price="89">
-            <div class="img-container">
-                <img src="https://via.placeholder.com/400x533?text=HABEEBAH+DRESS" alt="HABEEBAH DRESS">
-                <div class="quick-view-btn">👁</div>
-            </div>
-            <div class="p-name">HABEEBAH DRESS</div>
-            <div class="p-price">₱89.00</div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">HILYAH LOOSE TYPE DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="d7"
+        data-name="HABEEBAH DRESS"
+        data-price="89"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=HABEEBAH+DRESS"
+            alt="HABEEBAH DRESS"
+          />
+          <div class="quick-view-btn">👁</div>
         </div>
+        <div class="p-name">HABEEBAH DRESS</div>
+        <div class="p-price">₱89.00</div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
     </div>
 
     <h2 class="section-title">Scarves Collection</h2>
     <div class="product-grid" id="plainProducts">
-        <div class="product-card" data-id="s1" data-name="FRENCH MOUSSE" data-price="39">
-            <div class="img-container"><img src="https://via.placeholder.com/400x533?text=FRENCH+MOUSSE" alt="FRENCH MOUSSE"></div>
-            <div class="p-name">FRENCH MOUSSE</div>
-            <div class="p-price">₱39.00</div>
-            <div class="swatches">
-                <div class="swatch" style="--swatch-color:#721c24"></div>
-                <div class="swatch" style="--swatch-color:#5e4d44"></div>
-                <div class="swatch" style="--swatch-color:#333"></div>
-                <span style="font-size: 10px; color: #999;">+24</span>
-            </div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+      <div
+        class="product-card"
+        data-id="s1"
+        data-name="FRENCH MOUSSE"
+        data-price="39"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=FRENCH+MOUSSE"
+            alt="FRENCH MOUSSE"
+          />
         </div>
-        <div class="product-card" data-id="s2" data-name="BELGIAN HIJAB" data-price="59">
-            <div class="img-container"><img src="https://via.placeholder.com/400x533?text=BELGIAN+HIJAB" alt="BELGIAN HIJAB"></div>
-            <div class="p-name">BELGIAN HIJAB</div>
-            <div class="p-price">₱59.00</div>
-            <div class="swatches">
-                <div class="swatch" style="--swatch-color:#000"></div>
-                <div class="swatch" style="--swatch-color:#a39081"></div>
-                <div class="swatch" style="--swatch-color:#8b735b"></div>
-                <span style="font-size: 10px; color: #999;">+24</span>
-            </div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="p-name">FRENCH MOUSSE</div>
+        <div class="p-price">₱39.00</div>
+        <div class="swatches">
+          <div class="swatch" style="--swatch-color: #721c24"></div>
+          <div class="swatch" style="--swatch-color: #5e4d44"></div>
+          <div class="swatch" style="--swatch-color: #333"></div>
+          <span style="font-size: 10px; color: #999">+24</span>
         </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+      <div
+        class="product-card"
+        data-id="s2"
+        data-name="BELGIAN HIJAB"
+        data-price="59"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=BELGIAN+HIJAB"
+            alt="BELGIAN HIJAB"
+          />
+        </div>
+        <div class="p-name">BELGIAN HIJAB</div>
+        <div class="p-price">₱59.00</div>
+        <div class="swatches">
+          <div class="swatch" style="--swatch-color: #000"></div>
+          <div class="swatch" style="--swatch-color: #a39081"></div>
+          <div class="swatch" style="--swatch-color: #8b735b"></div>
+          <span style="font-size: 10px; color: #999">+24</span>
+        </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
     </div>
 
     <h2 class="section-title">Niqab Collection</h2>
     <div class="product-grid" id="niqabProducts">
-        <div class="product-card" data-id="n1" data-name="SINGLE CURVE NIQAB" data-price="59">
-            <div class="img-container"><img src="https://via.placeholder.com/400x533?text=SINGLE+CURVE+NIQAB" alt="SINGLE CURVE NIQAB"></div>
-            <div class="p-name">SINGLE CURVE NIQAB</div>
-            <div class="p-price">₱59.00</div>
-            <div class="swatches">
-                <div class="swatch" style="--swatch-color:#000"></div>
-                <div class="swatch" style="--swatch-color:#5e4d44"></div>
-                <div class="swatch" style="--swatch-color:#333"></div>
-            </div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+      <div
+        class="product-card"
+        data-id="n1"
+        data-name="SINGLE CURVE NIQAB"
+        data-price="59"
+      >
+        <div class="img-container">
+          <img
+            src="https://via.placeholder.com/400x533?text=SINGLE+CURVE+NIQAB"
+            alt="SINGLE CURVE NIQAB"
+          />
         </div>
+        <div class="p-name">SINGLE CURVE NIQAB</div>
+        <div class="p-price">₱59.00</div>
+        <div class="swatches">
+          <div class="swatch" style="--swatch-color: #000"></div>
+          <div class="swatch" style="--swatch-color: #5e4d44"></div>
+          <div class="swatch" style="--swatch-color: #333"></div>
+        </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
     </div>
 
     <section class="newsletter">
-        <h2>Join the Ruffle Squad</h2>
-        <p>Subscribe to our newsletter for the latest updates and offers.</p>
-        <div class="email-box">
-            <input type="email" placeholder="Your email address">
-            <button>Subscribe</button>
-        </div>
+      <h2>Join the Ruffle Squad</h2>
+      <p>Subscribe to our newsletter for the latest updates and offers.</p>
+      <div class="email-box">
+        <input type="email" placeholder="Your email address" />
+        <button>Subscribe</button>
+      </div>
     </section>
 
     <footer>
-        <div class="footer-col">
-            <h4>About Us</h4>
-            <p>TudungRuffle specializes in premium ruffle hijabs and modest fashion for the modern woman.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Information</h4>
-            <ul>
-                <li><a href="#">Our Story</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Store Locator</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Customer Care</h4>
-            <ul>
-                <li><a href="#">Shipping Policy</a></li>
-                <li><a href="#">Return & Exchange</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Follow Us</h4>
-            <p>Instagram: @tudungruffle</p>
-            <p>TikTok: @tudungruffle</p>
-        </div>
+      <div class="footer-col">
+        <h4>About Us</h4>
+        <p>
+          TudungRuffle specializes in premium ruffle hijabs and modest fashion
+          for the modern woman.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Information</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Store Locator</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Return & Exchange</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <p>Instagram: @tudungruffle</p>
+        <p>TikTok: @tudungruffle</p>
+      </div>
     </footer>
 
     <div class="footer-bottom">
-        <p>© 2026 MONISA Modesty. All Rights Reserved.</p>
-        <p>Philippines No.1 Modest Dress Specialist</p>
+      <p>© 2026 MONISA Modesty. All Rights Reserved.</p>
+      <p>Philippines No.1 Modest Dress Specialist</p>
     </div>
 
     <!-- Login Modal -->
     <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeLogin">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="form-btn">Login</button>
-                <p class="form-footer">Don't have an account? <a href="#" id="goToSignup">Sign Up</a></p>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close-modal" id="closeLogin">&times;</span>
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit" class="form-btn">Login</button>
+          <p class="form-footer">
+            Don't have an account? <a href="#" id="goToSignup">Sign Up</a>
+          </p>
+        </form>
+      </div>
     </div>
 
     <!-- Signup Modal -->
     <div class="modal" id="signupModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeSignup">&times;</span>
-            <h2>Create Account</h2>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="signupName" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="signupEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="signupPassword" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="signupConfirmPassword" required>
-                </div>
-                <button type="submit" class="form-btn">Sign Up</button>
-                <p class="form-footer">Already have an account? <a href="#" id="goToLogin">Login</a></p>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close-modal" id="closeSignup">&times;</span>
+        <h2>Create Account</h2>
+        <form id="signupForm">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="signupName" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="signupEmail" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signupPassword" required />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="signupConfirmPassword" required />
+          </div>
+          <button type="submit" class="form-btn">Sign Up</button>
+          <p class="form-footer">
+            Already have an account? <a href="#" id="goToLogin">Login</a>
+          </p>
+        </form>
+      </div>
     </div>
 
     <!-- Admin Login Modal -->
     <div class="modal" id="adminLoginModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeAdminLogin">&times;</span>
-            <h2>Admin Login</h2>
-            <form id="adminLoginForm">
-                <div class="form-group">
-                    <label>Admin Username</label>
-                    <input type="text" id="adminUsername" required>
-                </div>
-                <div class="form-group">
-                    <label>Admin Password</label>
-                    <input type="password" id="adminPassword" required>
-                </div>
-                <button type="submit" class="form-btn">Admin Login</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close-modal" id="closeAdminLogin">&times;</span>
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm">
+          <div class="form-group">
+            <label>Admin Username</label>
+            <input type="text" id="adminUsername" required />
+          </div>
+          <div class="form-group">
+            <label>Admin Password</label>
+            <input type="password" id="adminPassword" required />
+          </div>
+          <button type="submit" class="form-btn">Admin Login</button>
+        </form>
+      </div>
     </div>
 
     <!-- Admin Dashboard Modal -->
     <div class="modal" id="adminDashboardModal">
-        <div class="modal-content admin-dashboard">
-            <span class="close-modal" id="closeAdminDashboard">&times;</span>
-            <h2>Admin Dashboard</h2>
-            <div class="admin-tabs-container">
-                <div class="admin-tabs-scroll">
-                    <button class="admin-tab active" data-tab="users">Users</button>
-                    <button class="admin-tab" data-tab="products">Products</button>
-                    <button class="admin-tab" data-tab="categories">Categories</button>
-                    <button class="admin-tab" data-tab="suppliers">Suppliers</button>
-                    <button class="admin-tab" data-tab="orders">Orders</button>
-                </div>
-            </div>
-            
-            <!-- Users Tab -->
-            <div class="admin-content" id="usersTab">
-                <div class="admin-header">
-                    <h3>User Management</h3>
-                    <button class="admin-action-btn" id="addUserBtn">+ Add User</button>
-                </div>
-                <div id="usersList">
-                    <p>No users registered yet.</p>
-                </div>
-            </div>
-            
-            <!-- Products Tab -->
-            <div class="admin-content" id="productsTab" style="display:none;">
-                <div class="admin-header">
-                    <h3>Product Management</h3>
-                    <button class="admin-action-btn" id="addProductBtn">+ Add Product</button>
-                </div>
-                <div id="productsList">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Category</th>
-                                <th>Stock</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productsTableBody">
-                            <tr><td colspan="6">No products yet.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Categories Tab -->
-            <div class="admin-content" id="categoriesTab" style="display:none;">
-                <div class="admin-header">
-                    <h3>Category Maintenance</h3>
-                    <button class="admin-action-btn" id="addCategoryBtn">+ Add Category</button>
-                </div>
-                <div id="categoriesList">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Category Name</th>
-                                <th>Description</th>
-                                <th>Products</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="categoriesTableBody">
-                            <tr><td colspan="5">No categories yet.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Suppliers Tab -->
-            <div class="admin-content" id="suppliersTab" style="display:none;">
-                <div class="admin-header">
-                    <h3>Supplier Maintenance</h3>
-                    <button class="admin-action-btn" id="addSupplierBtn">+ Add Supplier</button>
-                </div>
-                <div id="suppliersList">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Supplier Name</th>
-                                <th>Contact</th>
-                                <th>Email</th>
-                                <th>Products</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="suppliersTableBody">
-                            <tr><td colspan="6">No suppliers yet.</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Orders Tab -->
-            <div class="admin-content" id="ordersTab" style="display:none;">
-                <div class="admin-header">
-                    <h3>Order Tracking</h3>
-                </div>
-                <div id="ordersList">
-                    <p>No orders yet.</p>
-                </div>
-            </div>
+      <div class="modal-content admin-dashboard">
+        <span class="close-modal" id="closeAdminDashboard">&times;</span>
+        <h2>Admin Dashboard</h2>
+        <div class="admin-tabs-container">
+          <div class="admin-tabs-scroll">
+            <button class="admin-tab active" data-tab="users">Users</button>
+            <button class="admin-tab" data-tab="products">Products</button>
+            <button class="admin-tab" data-tab="categories">Categories</button>
+            <button class="admin-tab" data-tab="suppliers">Suppliers</button>
+            <button class="admin-tab" data-tab="orders">Orders</button>
+          </div>
         </div>
+
+        <!-- Users Tab -->
+        <div class="admin-content" id="usersTab">
+          <div class="admin-header">
+            <h3>User Management</h3>
+            <button class="admin-action-btn" id="addUserBtn">+ Add User</button>
+          </div>
+          <div id="usersList">
+            <p>No users registered yet.</p>
+          </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div class="admin-content" id="productsTab" style="display: none">
+          <div class="admin-header">
+            <h3>Product Management</h3>
+            <button class="admin-action-btn" id="addProductBtn">
+              + Add Product
+            </button>
+          </div>
+          <div id="productsList">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                  <th>Stock</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <tr>
+                  <td colspan="6">No products yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Categories Tab -->
+        <div class="admin-content" id="categoriesTab" style="display: none">
+          <div class="admin-header">
+            <h3>Category Maintenance</h3>
+            <button class="admin-action-btn" id="addCategoryBtn">
+              + Add Category
+            </button>
+          </div>
+          <div id="categoriesList">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Category Name</th>
+                  <th>Description</th>
+                  <th>Products</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="categoriesTableBody">
+                <tr>
+                  <td colspan="5">No categories yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Suppliers Tab -->
+        <div class="admin-content" id="suppliersTab" style="display: none">
+          <div class="admin-header">
+            <h3>Supplier Maintenance</h3>
+            <button class="admin-action-btn" id="addSupplierBtn">
+              + Add Supplier
+            </button>
+          </div>
+          <div id="suppliersList">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Supplier Name</th>
+                  <th>Contact</th>
+                  <th>Email</th>
+                  <th>Products</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="suppliersTableBody">
+                <tr>
+                  <td colspan="6">No suppliers yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="admin-content" id="ordersTab" style="display: none">
+          <div class="admin-header">
+            <h3>Order Tracking</h3>
+          </div>
+          <div id="ordersList">
+            <p>No orders yet.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- My Orders Modal -->
     <div class="modal" id="myOrdersModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeMyOrders">&times;</span>
-            <h2>My Orders</h2>
-            <div id="myOrdersList">
-                <p>No orders yet.</p>
-            </div>
+      <div class="modal-content">
+        <span class="close-modal" id="closeMyOrders">&times;</span>
+        <h2>My Orders</h2>
+        <div id="myOrdersList">
+          <p>No orders yet.</p>
         </div>
+      </div>
     </div>
 
     <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeCheckout">&times;</span>
-            <h2>Checkout</h2>
-            
-            <!-- Shipping Address Section -->
-            <div class="checkout-section">
-                <h3>Shipping Address</h3>
-                <div id="savedAddresses">
-                    <p>No saved addresses.</p>
-                </div>
-                <button class="form-btn" id="addAddressBtn" style="margin-top: 10px;">+ Add New Address</button>
-                
-                <!-- Add Address Form -->
-                <div id="addAddressForm" style="display: none; margin-top: 15px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="addressName" placeholder="Enter full name">
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="addressPhone" placeholder="Enter phone number">
-                    </div>
-                    <div class="form-group">
-                        <label>Street Address</label>
-                        <input type="text" id="addressStreet" placeholder="Enter street address">
-                    </div>
-                    <div class="form-group">
-                        <label>Barangay</label>
-                        <input type="text" id="addressBarangay" placeholder="Enter barangay">
-                    </div>
-                    <div class="form-group">
-                        <label>City/Municipality</label>
-                        <input type="text" id="addressCity" placeholder="Enter city">
-                    </div>
-                    <div class="form-group">
-                        <label>Province</label>
-                        <input type="text" id="addressProvince" placeholder="Enter province">
-                    </div>
-                    <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="text" id="addressPostal" placeholder="Enter postal code">
-                    </div>
-                    <button type="button" class="form-btn" id="saveAddressBtn">Save Address</button>
-                    <button type="button" class="form-btn" id="cancelAddressBtn" style="background: #6c757d; margin-left: 10px;">Cancel</button>
-                </div>
+      <div class="modal-content">
+        <span class="close-modal" id="closeCheckout">&times;</span>
+        <h2>Checkout</h2>
+
+        <!-- Shipping Address Section -->
+        <div class="checkout-section">
+          <h3>Shipping Address</h3>
+          <div id="savedAddresses">
+            <p>No saved addresses.</p>
+          </div>
+          <button class="form-btn" id="addAddressBtn" style="margin-top: 10px">
+            + Add New Address
+          </button>
+
+          <!-- Add Address Form -->
+          <div
+            id="addAddressForm"
+            style="
+              display: none;
+              margin-top: 15px;
+              padding: 15px;
+              background: #f5f5f5;
+              border-radius: 5px;
+            "
+          >
+            <div class="form-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                id="addressName"
+                placeholder="Enter full name"
+                oninput="this.value = this.value.replace(/[0-9]/g, '')"
+              />
             </div>
-            
-            <!-- Order Summary Section -->
-            <div class="checkout-section">
-                <h3>Order Summary</h3>
-                <div id="checkoutItems">
-                    <p>No items selected.</p>
-                </div>
-                <div class="checkout-total">
-                    <span>Total:</span>
-                    <span id="checkoutTotal">₱0.00</span>
-                </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                id="addressPhone"
+                placeholder="Enter phone number"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
             </div>
-            
-            <button class="checkout-btn" id="placeOrderBtn" style="width: 100%; margin-top: 20px;">Place Order</button>
+            <div class="form-group">
+              <label>Street Address</label>
+              <input
+                type="text"
+                id="addressStreet"
+                placeholder="Enter street address"
+              />
+            </div>
+            <div class="form-group">
+              <label>Barangay</label>
+              <input
+                type="text"
+                id="addressBarangay"
+                placeholder="Enter barangay"
+              />
+            </div>
+            <div class="form-group">
+              <label>City/Municipality</label>
+              <input type="text" id="addressCity" placeholder="Enter city" />
+            </div>
+            <div class="form-group">
+              <label>Province</label>
+              <input
+                type="text"
+                id="addressProvince"
+                placeholder="Enter province"
+              />
+            </div>
+            <div class="form-group">
+              <label>Postal Code</label>
+              <input
+                type="text"
+                id="addressPostal"
+                placeholder="Enter postal code"
+                oninput="
+                  this.value = this.value.replace(/[^0-9]/g, '').substring(0, 4)
+                "
+              />
+            </div>
+            <button type="button" class="form-btn" id="saveAddressBtn">
+              Save Address
+            </button>
+            <button
+              type="button"
+              class="form-btn"
+              id="cancelAddressBtn"
+              style="background: #6c757d; margin-left: 10px"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
+
+        <!-- Order Summary Section -->
+        <div class="checkout-section">
+          <h3>Order Summary</h3>
+          <div id="checkoutItems">
+            <p>No items selected.</p>
+          </div>
+          <div class="checkout-total">
+            <span>Total:</span>
+            <span id="checkoutTotal">₱0.00</span>
+          </div>
+        </div>
+
+        <button
+          class="checkout-btn"
+          id="placeOrderBtn"
+          style="width: 100%; margin-top: 20px"
+        >
+          Place Order
+        </button>
+      </div>
     </div>
 
     <!-- Cart Sidebar -->
     <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2>Shopping Cart</h2>
-            <span class="close-cart" id="closeCart">&times;</span>
+      <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <span class="close-cart" id="closeCart">&times;</span>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <p class="empty-cart-msg">Your cart is empty.</p>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-total selected-total">
+          <span id="selectedTotal">Selected: ₱0.00</span>
         </div>
-        <div class="cart-items" id="cartItems">
-            <p class="empty-cart-msg">Your cart is empty.</p>
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cartTotal">₱0.00</span>
         </div>
-        <div class="cart-footer">
-            <div class="cart-total selected-total">
-                <span id="selectedTotal">Selected: ₱0.00</span>
-            </div>
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">₱0.00</span>
-            </div>
-            <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
-        </div>
+        <button class="checkout-btn" id="checkoutBtn">
+          Proceed to Checkout
+        </button>
+      </div>
     </div>
 
     <!-- Cart Overlay -->
@@ -542,5 +752,5 @@
     <script src="user/user.js"></script>
     <script src="admin/admin.js"></script>
     <script src="cart/cart.js"></script>
-</body>
+  </body>
 </html>
