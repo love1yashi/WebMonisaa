@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Modal</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../admin/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Admin Modal Styles - Extended from main/modal.css */
+        .admin-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .admin-modal-content { background-color: #fff; margin: 8% auto; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .admin-modal h2 { font-family: 'Playfair Display', serif; font-size: 24px; text-align: center; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; color: #666; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 13px; font-family: 'Montserrat', sans-serif; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--text-color); }
+        .admin-form-btn { width: 100%; padding: 14px; background: var(--button-bg); color: #fff; border: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .admin-form-btn:hover { background: var(--button-hover); }
+        .admin-modal .close-modal { position: absolute; right: 20px; top: 20px; font-size: 28px; color: #999; cursor: pointer; transition: color 0.3s; }
+        .admin-modal .close-modal:hover { color: var(--text-color); }
+    </style>
+</head>
+<body>
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-modal" onclick="closeAdminModal('addUserModal')">&times;</span>
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="userName">Full Name</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Password</label>
+                    <input type="password" id="userPassword" required>
+                </div>
+                <button type="submit" class="admin-form-btn">Add User</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-modal" onclick="closeAdminModal('addProductModal')">&times;</span>
+            <h2>Add New Product</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price (₱)</label>
+                    <input type="number" id="productPrice" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <input type="text" id="productCategory" required>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity</label>
+                    <input type="number" id="productStock" min="0" required>
+                </div>
+                <button type="submit" class="admin-form-btn">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAdminModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeAdminModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Form submissions (demo - connect to PHP APIs)
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add user logic here
+            alert('User added successfully!');
+            closeAdminModal('addUserModal');
+            location.reload();
+        });
+
+        document.getElementById('addProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add product logic here
+            alert('Product added successfully!');
+            closeAdminModal('addProductModal');
+            location.reload();
+        });
+
+        // Close on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('admin-modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

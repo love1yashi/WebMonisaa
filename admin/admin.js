@@ -29,8 +29,146 @@ function loadAdminProfile() {
   }
 }
 
+// Modal-based prompt/confirm helpers (replaces browser prompt/confirm)
+let _modalResolver = null;
+
+function _showOverlay(show, overlayId = "adminModalsOverlay") {
+  const overlay = document.getElementById(overlayId);
+  if (overlay) overlay.style.display = show ? "flex" : "none";
+}
+
+function _closeModalOverlay(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) modal.style.display = "none";
+  _showOverlay(false, "adminModalsOverlay");
+}
+
+function openInputModal({ title = "Input", label = "Value", value = "", type = "text", placeholder = "" } = {}) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("inputModal");
+    if (!modal) return resolve(null);
+
+    const titleEl = document.getElementById("inputModalTitle");
+    const labelEl = document.getElementById("inputModalLabel");
+    const inputEl = document.getElementById("inputModalField");
+    const okBtn = document.getElementById("inputModalOk");
+    const cancelBtn = document.getElementById("inputModalCancel");
+
+    titleEl.textContent = title;
+    labelEl.textContent = label;
+    inputEl.type = type;
+    inputEl.value = value || "";
+    inputEl.placeholder = placeholder || "";
+
+    const cleanup = (result) => {
+      modal.style.display = "none";
+      _showOverlay(false, "inputConfirmOverlay");
+      okBtn.removeEventListener("click", onOk);
+      cancelBtn.removeEventListener("click", onCancel);
+      inputEl.removeEventListener("keyup", onKeyUp);
+      _modalResolver = null;
+      resolve(result);
+    };
+
+    const onOk = () => cleanup(inputEl.value.trim() === "" ? null : inputEl.value);
+    const onCancel = () => cleanup(null);
+    const onKeyUp = (e) => {
+      if (e.key === "Enter") onOk();
+      if (e.key === "Escape") onCancel();
+    };
+
+    okBtn.addEventListener("click", onOk);
+    cancelBtn.addEventListener("click", onCancel);
+    inputEl.addEventListener("keyup", onKeyUp);
+
+    _showOverlay(true, "inputConfirmOverlay");
+    modal.style.display = "block";
+    inputEl.focus();
+    inputEl.select();
+
+    _modalResolver = cleanup;
+  });
+}
+
+function closeInputModal() {
+  if (_modalResolver) {
+    _modalResolver(null);
+  }
+}
+
+function openConfirmModal(message = "Are you sure?") {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("confirmModal");
+    if (!modal) return resolve(false);
+
+    const messageEl = document.getElementById("confirmModalMessage");
+    const okBtn = document.getElementById("confirmModalOk");
+    const cancelBtn = document.getElementById("confirmModalCancel");
+
+    messageEl.textContent = message;
+
+    const cleanup = (result) => {
+      modal.style.display = "none";
+      _showOverlay(false, "inputConfirmOverlay");
+      okBtn.removeEventListener("click", onOk);
+      cancelBtn.removeEventListener("click", onCancel);
+      _modalResolver = null;
+      resolve(result);
+    };
+
+    const onOk = () => cleanup(true);
+    const onCancel = () => cleanup(false);
+
+    okBtn.addEventListener("click", onOk);
+    cancelBtn.addEventListener("click", onCancel);
+
+    _showOverlay(true, "inputConfirmOverlay");
+    modal.style.display = "block";
+
+    _modalResolver = cleanup;
+  });
+}
+
+function closeConfirmModal() {
+  if (_modalResolver) {
+    _modalResolver(false);
+  }
+}
+
+window.openInputModal = openInputModal;
+window.openConfirmModal = openConfirmModal;
+window.closeInputModal = closeInputModal;
+window.closeConfirmModal = closeConfirmModal;
+
+// Open admin form modals in grid overlay
+function openAdminModal(modalId) {
+  const overlay = document.getElementById("adminModalsOverlay");
+  const modal = document.getElementById(modalId);
+  if (overlay && modal) {
+    overlay.style.display = "flex";
+    modal.style.display = "block";
+  }
+}
+
+function closeAdminModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) modal.style.display = "none";
+  
+  // Check if any modal is still visible
+  const overlay = document.getElementById("adminModalsOverlay");
+  if (overlay) {
+    const visibleModals = overlay.querySelectorAll(".admin-modal-content[style*='display: block']");
+    if (visibleModals.length === 0) {
+      overlay.style.display = "none";
+    }
+  }
+}
+
+window.openAdminModal = openAdminModal;
+window.closeAdminModal = closeAdminModal;
+
 // Edit admin username
-window.editAdminUsername = function () {
+window.editAdminUsername = async function () {
   const currentAdmin = JSON.parse(localStorage.getItem("currentAdmin"));
   const admins = JSON.parse(localStorage.getItem("adminAccounts")) || [];
 
@@ -42,10 +180,12 @@ window.editAdminUsername = function () {
   if (!adminId) return;
 
   const admin = admins.find((a) => a.id === adminId);
-  const newUsername = prompt(
-    "Enter new username:",
-    admin ? admin.username : "",
-  );
+  const newUsername = await openInputModal({
+    title: "Update Username",
+    label: "New username",
+    value: admin ? admin.username : "",
+    placeholder: "Enter username",
+  });
 
   if (newUsername && newUsername.trim() !== "") {
     if (admins.find((a) => a.username === newUsername && a.id !== adminId)) {
@@ -70,7 +210,7 @@ window.editAdminUsername = function () {
 };
 
 // Edit admin password
-window.editAdminPassword = function () {
+window.editAdminPassword = async function () {
   const currentAdmin = JSON.parse(localStorage.getItem("currentAdmin"));
   const admins = JSON.parse(localStorage.getItem("adminAccounts")) || [];
 
@@ -81,10 +221,23 @@ window.editAdminPassword = function () {
       : null;
   if (!adminId) return;
 
-  const newPassword = prompt("Enter new password:");
-  const confirmPassword = prompt("Confirm new password:");
+  const newPassword = await openInputModal({
+    title: "Change Password",
+    label: "New password",
+    type: "password",
+    placeholder: "Enter new password",
+  });
 
-  if (!newPassword || !confirmPassword) return;
+  if (!newPassword) return;
+
+  const confirmPassword = await openInputModal({
+    title: "Change Password",
+    label: "Confirm password",
+    type: "password",
+    placeholder: "Re-enter new password",
+  });
+
+  if (!confirmPassword) return;
 
   if (newPassword !== confirmPassword) {
     alert("Passwords do not match!");
@@ -192,28 +345,44 @@ function loadUsers() {
 }
 
 // Delete user
-window.deleteUser = function (userId) {
-  if (confirm("Are you sure you want to delete this user?")) {
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    users = users.filter((u) => u.id !== userId);
-    localStorage.setItem("users", JSON.stringify(users));
-    loadUsers();
-  }
+window.deleteUser = async function (userId) {
+  const confirmed = await openConfirmModal("Are you sure you want to delete this user?");
+  if (!confirmed) return;
+
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  users = users.filter((u) => u.id !== userId);
+  localStorage.setItem("users", JSON.stringify(users));
+  loadUsers();
 };
 
 // Edit user
-window.editUser = function (userId) {
+window.editUser = async function (userId) {
   const users = JSON.parse(localStorage.getItem("users")) || [];
   const user = users.find((u) => u.id === userId);
   if (user) {
-    const newName = prompt("Enter new name:", user.name);
-    const newEmail = prompt("Enter new email:", user.email);
-    if (newName && newEmail) {
-      const index = users.findIndex((u) => u.id === userId);
-      users[index] = { ...users[index], name: newName, email: newEmail };
-      localStorage.setItem("users", JSON.stringify(users));
-      loadUsers();
-    }
+    const newName = await openInputModal({
+      title: "Edit User",
+      label: "New name",
+      value: user.name,
+      placeholder: "Enter user name",
+    });
+
+    if (!newName) return;
+
+    const newEmail = await openInputModal({
+      title: "Edit User",
+      label: "New email",
+      value: user.email,
+      placeholder: "Enter user email",
+      type: "email",
+    });
+
+    if (!newEmail) return;
+
+    const index = users.findIndex((u) => u.id === userId);
+    users[index] = { ...users[index], name: newName, email: newEmail };
+    localStorage.setItem("users", JSON.stringify(users));
+    loadUsers();
   }
 };
 
@@ -221,30 +390,49 @@ function setupAddUserBtn() {
   const addUserBtn = document.getElementById("addUserBtn");
   if (addUserBtn) {
     addUserBtn.addEventListener("click", () => {
-      const name = prompt("Enter user name:");
-      const email = prompt("Enter user email:");
-      const password = prompt("Enter user password:");
+      // Clear form
+      document.getElementById("addUserForm").reset();
+      // Open modal with all fields visible
+      openAdminModal("addUserModal");
+    });
+  }
 
-      if (name && email && password) {
-        const users = JSON.parse(localStorage.getItem("users")) || [];
+  // Handle Add User Form Submission
+  const addUserForm = document.getElementById("addUserForm");
+  if (addUserForm) {
+    addUserForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById("userName").value.trim();
+      const email = document.getElementById("userEmail").value.trim();
+      const password = document.getElementById("userPassword").value.trim();
 
-        if (users.find((u) => u.email === email)) {
-          alert("Email already exists!");
-          return;
-        }
-
-        const newUser = {
-          id: Date.now(),
-          name,
-          email,
-          password,
-          createdAt: new Date().toISOString(),
-        };
-
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-        loadUsers();
+      if (!name || !email || !password) {
+        alert("All fields are required!");
+        return;
       }
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (users.find((u) => u.email === email)) {
+        alert("Email already exists!");
+        return;
+      }
+
+      const newUser = {
+        id: Date.now(),
+        name,
+        email,
+        password,
+        createdAt: new Date().toISOString(),
+      };
+
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+      
+      closeAdminModal("addUserModal");
+      alert("User added successfully!");
+      loadUsers();
     });
   }
 }
@@ -284,35 +472,56 @@ function loadProducts() {
 }
 
 // Delete product
-window.deleteProduct = function (productId) {
-  if (confirm("Are you sure you want to delete this product?")) {
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-    products = products.filter((p) => p.id !== productId);
-    localStorage.setItem("products", JSON.stringify(products));
-    loadProducts();
-  }
+window.deleteProduct = async function (productId) {
+  const confirmed = await openConfirmModal("Are you sure you want to delete this product?");
+  if (!confirmed) return;
+
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+  products = products.filter((p) => p.id !== productId);
+  localStorage.setItem("products", JSON.stringify(products));
+  loadProducts();
 };
 
 // Edit product
-window.editProduct = function (productId) {
+window.editProduct = async function (productId) {
   const products = JSON.parse(localStorage.getItem("products")) || [];
   const product = products.find((p) => p.id === productId);
   if (product) {
-    const newName = prompt("Enter product name:", product.name);
-    const newPrice = prompt("Enter product price:", product.price);
-    const newStock = prompt("Enter product stock:", product.stock);
+    const newName = await openInputModal({
+      title: "Edit Product",
+      label: "Product name",
+      value: product.name,
+      placeholder: "Enter product name",
+    });
+    if (!newName) return;
 
-    if (newName && newPrice) {
-      const index = products.findIndex((p) => p.id === productId);
-      products[index] = {
-        ...products[index],
-        name: newName,
-        price: parseFloat(newPrice),
-        stock: parseInt(newStock),
-      };
-      localStorage.setItem("products", JSON.stringify(products));
-      loadProducts();
-    }
+    const newPrice = await openInputModal({
+      title: "Edit Product",
+      label: "Product price",
+      value: product.price,
+      placeholder: "Enter product price",
+      type: "number",
+    });
+    if (!newPrice) return;
+
+    const newStock = await openInputModal({
+      title: "Edit Product",
+      label: "Product stock",
+      value: product.stock,
+      placeholder: "Enter product stock",
+      type: "number",
+    });
+    if (!newStock) return;
+
+    const index = products.findIndex((p) => p.id === productId);
+    products[index] = {
+      ...products[index],
+      name: newName,
+      price: parseFloat(newPrice),
+      stock: parseInt(newStock),
+    };
+    localStorage.setItem("products", JSON.stringify(products));
+    loadProducts();
   }
 };
 
@@ -320,26 +529,45 @@ function setupAddProductBtn() {
   const addProductBtn = document.getElementById("addProductBtn");
   if (addProductBtn) {
     addProductBtn.addEventListener("click", () => {
-      const name = prompt("Enter product name:");
-      const price = prompt("Enter product price:");
-      const category = prompt("Enter product category:");
-      const stock = prompt("Enter product stock:");
+      // Clear form
+      document.getElementById("addProductForm").reset();
+      // Open modal with all fields visible
+      openAdminModal("addProductModal");
+    });
+  }
 
-      if (name && price) {
-        const products = JSON.parse(localStorage.getItem("products")) || [];
+  // Handle Add Product Form Submission
+  const addProductForm = document.getElementById("addProductForm");
+  if (addProductForm) {
+    addProductForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById("productName").value.trim();
+      const price = document.getElementById("productPrice").value.trim();
+      const category = document.getElementById("productCategory").value.trim();
+      const stock = document.getElementById("productStock").value.trim();
 
-        const newProduct = {
-          id: Date.now(),
-          name,
-          price: parseFloat(price),
-          category,
-          stock: parseInt(stock) || 0,
-        };
-
-        products.push(newProduct);
-        localStorage.setItem("products", JSON.stringify(products));
-        loadProducts();
+      if (!name || !price || !category || !stock) {
+        alert("All fields are required!");
+        return;
       }
+
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+
+      const newProduct = {
+        id: Date.now(),
+        name,
+        price: parseFloat(price),
+        category,
+        stock: parseInt(stock) || 0,
+      };
+
+      products.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+      
+      closeAdminModal("addProductModal");
+      alert("Product added successfully!");
+      loadProducts();
     });
   }
 }
@@ -378,57 +606,78 @@ function loadCategories() {
 }
 
 // Delete category
-window.deleteCategory = function (categoryId) {
-  if (confirm("Are you sure you want to delete this category?")) {
-    let categories = JSON.parse(localStorage.getItem("categories")) || [];
-    categories = categories.filter((c) => c.id !== categoryId);
-    localStorage.setItem("categories", JSON.stringify(categories));
-    loadCategories();
-  }
+window.deleteCategory = async function (categoryId) {
+  const confirmed = await openConfirmModal("Are you sure you want to delete this category?");
+  if (!confirmed) return;
+
+  let categories = JSON.parse(localStorage.getItem("categories")) || [];
+  categories = categories.filter((c) => c.id !== categoryId);
+  localStorage.setItem("categories", JSON.stringify(categories));
+  loadCategories();
 };
 
 // Edit category
-window.editCategory = function (categoryId) {
+window.editCategory = async function (categoryId) {
   const categories = JSON.parse(localStorage.getItem("categories")) || [];
   const category = categories.find((c) => c.id === categoryId);
   if (category) {
-    const newName = prompt("Enter category name:", category.name);
-    const newDesc = prompt("Enter category description:", category.description);
+    const newName = await openInputModal({
+      title: "Edit Category",
+      label: "Category name",
+      value: category.name,
+      placeholder: "Enter category name",
+    });
+    if (!newName) return;
 
-    if (newName) {
-      const index = categories.findIndex((c) => c.id === categoryId);
-      categories[index] = {
-        ...categories[index],
-        name: newName,
-        description: newDesc,
-      };
-      localStorage.setItem("categories", JSON.stringify(categories));
-      loadCategories();
-    }
+    const newDesc = await openInputModal({
+      title: "Edit Category",
+      label: "Category description",
+      value: category.description,
+      placeholder: "Enter category description",
+    });
+    if (newDesc === null) return;
+
+    const index = categories.findIndex((c) => c.id === categoryId);
+    categories[index] = {
+      ...categories[index],
+      name: newName,
+      description: newDesc,
+    };
+    localStorage.setItem("categories", JSON.stringify(categories));
+    loadCategories();
   }
 };
 
 function setupAddCategoryBtn() {
   const addCategoryBtn = document.getElementById("addCategoryBtn");
   if (addCategoryBtn) {
-    addCategoryBtn.addEventListener("click", () => {
-      const name = prompt("Enter category name:");
-      const description = prompt("Enter category description:");
+    addCategoryBtn.addEventListener("click", async () => {
+      const name = await openInputModal({
+        title: "New Category",
+        label: "Category name",
+        placeholder: "Enter category name",
+      });
+      if (!name) return;
 
-      if (name) {
-        const categories = JSON.parse(localStorage.getItem("categories")) || [];
+      const description = await openInputModal({
+        title: "New Category",
+        label: "Category description",
+        placeholder: "Enter category description",
+      });
+      if (description === null) return;
 
-        const newCategory = {
-          id: Date.now(),
-          name,
-          description,
-          productCount: 0,
-        };
+      const categories = JSON.parse(localStorage.getItem("categories")) || [];
 
-        categories.push(newCategory);
-        localStorage.setItem("categories", JSON.stringify(categories));
-        loadCategories();
-      }
+      const newCategory = {
+        id: Date.now(),
+        name,
+        description,
+        productCount: 0,
+      };
+
+      categories.push(newCategory);
+      localStorage.setItem("categories", JSON.stringify(categories));
+      loadCategories();
     });
   }
 }
@@ -468,61 +717,97 @@ function loadSuppliers() {
 }
 
 // Delete supplier
-window.deleteSupplier = function (supplierId) {
-  if (confirm("Are you sure you want to delete this supplier?")) {
-    let suppliers = JSON.parse(localStorage.getItem("suppliers")) || [];
-    suppliers = suppliers.filter((s) => s.id !== supplierId);
-    localStorage.setItem("suppliers", JSON.stringify(suppliers));
-    loadSuppliers();
-  }
+window.deleteSupplier = async function (supplierId) {
+  const confirmed = await openConfirmModal("Are you sure you want to delete this supplier?");
+  if (!confirmed) return;
+
+  let suppliers = JSON.parse(localStorage.getItem("suppliers")) || [];
+  suppliers = suppliers.filter((s) => s.id !== supplierId);
+  localStorage.setItem("suppliers", JSON.stringify(suppliers));
+  loadSuppliers();
 };
 
 // Edit supplier
-window.editSupplier = function (supplierId) {
+window.editSupplier = async function (supplierId) {
   const suppliers = JSON.parse(localStorage.getItem("suppliers")) || [];
   const supplier = suppliers.find((s) => s.id === supplierId);
   if (supplier) {
-    const newName = prompt("Enter supplier name:", supplier.name);
-    const newContact = prompt("Enter supplier contact:", supplier.contact);
-    const newEmail = prompt("Enter supplier email:", supplier.email);
+    const newName = await openInputModal({
+      title: "Edit Supplier",
+      label: "Supplier name",
+      value: supplier.name,
+      placeholder: "Enter supplier name",
+    });
+    if (!newName) return;
 
-    if (newName) {
-      const index = suppliers.findIndex((s) => s.id === supplierId);
-      suppliers[index] = {
-        ...suppliers[index],
-        name: newName,
-        contact: newContact,
-        email: newEmail,
-      };
-      localStorage.setItem("suppliers", JSON.stringify(suppliers));
-      loadSuppliers();
-    }
+    const newContact = await openInputModal({
+      title: "Edit Supplier",
+      label: "Supplier contact",
+      value: supplier.contact,
+      placeholder: "Enter supplier contact",
+    });
+    if (newContact === null) return;
+
+    const newEmail = await openInputModal({
+      title: "Edit Supplier",
+      label: "Supplier email",
+      value: supplier.email,
+      placeholder: "Enter supplier email",
+      type: "email",
+    });
+    if (newEmail === null) return;
+
+    const index = suppliers.findIndex((s) => s.id === supplierId);
+    suppliers[index] = {
+      ...suppliers[index],
+      name: newName,
+      contact: newContact,
+      email: newEmail,
+    };
+    localStorage.setItem("suppliers", JSON.stringify(suppliers));
+    loadSuppliers();
   }
 };
 
 function setupAddSupplierBtn() {
   const addSupplierBtn = document.getElementById("addSupplierBtn");
   if (addSupplierBtn) {
-    addSupplierBtn.addEventListener("click", () => {
-      const name = prompt("Enter supplier name:");
-      const contact = prompt("Enter supplier contact:");
-      const email = prompt("Enter supplier email:");
+    addSupplierBtn.addEventListener("click", async () => {
+      const name = await openInputModal({
+        title: "New Supplier",
+        label: "Supplier name",
+        placeholder: "Enter supplier name",
+      });
+      if (!name) return;
 
-      if (name) {
-        const suppliers = JSON.parse(localStorage.getItem("suppliers")) || [];
+      const contact = await openInputModal({
+        title: "New Supplier",
+        label: "Supplier contact",
+        placeholder: "Enter supplier contact",
+      });
+      if (contact === null) return;
 
-        const newSupplier = {
-          id: Date.now(),
-          name,
-          contact,
-          email,
-          products: 0,
-        };
+      const email = await openInputModal({
+        title: "New Supplier",
+        label: "Supplier email",
+        placeholder: "Enter supplier email",
+        type: "email",
+      });
+      if (email === null) return;
 
-        suppliers.push(newSupplier);
-        localStorage.setItem("suppliers", JSON.stringify(suppliers));
-        loadSuppliers();
-      }
+      const suppliers = JSON.parse(localStorage.getItem("suppliers")) || [];
+
+      const newSupplier = {
+        id: Date.now(),
+        name,
+        contact,
+        email,
+        products: 0,
+      };
+
+      suppliers.push(newSupplier);
+      localStorage.setItem("suppliers", JSON.stringify(suppliers));
+      loadSuppliers();
     });
   }
 }

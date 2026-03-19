@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard | MONISA</title>
-    <link rel="stylesheet" href="admin.css" />
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="admin.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
       rel="stylesheet"
@@ -68,12 +69,93 @@
 
     <!-- Main Content -->
     <main class="admin-main">
+      <!-- Input + Confirm Modals -->
+      <div id="inputModal" class="admin-modal-overlay" style="display: none;">
+        <div class="admin-modal-content">
+          <span class="close-modal" onclick="closeInputModal()">&times;</span>
+          <h2 id="inputModalTitle">Input</h2>
+          <div class="form-group">
+            <label id="inputModalLabel" for="inputModalField">Value</label>
+            <input id="inputModalField" type="text" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="admin-form-btn secondary" id="inputModalCancel">Cancel</button>
+            <button type="button" class="admin-form-btn" id="inputModalOk">OK</button>
+          </div>
+        </div>
+      </div>
+      <div id="confirmModal" class="admin-modal-overlay" style="display: none;">
+        <div class="admin-modal-content">
+          <span class="close-modal" onclick="closeConfirmModal()">&times;</span>
+          <h2>Confirm</h2>
+          <p id="confirmModalMessage" style="margin-bottom: 25px;"></p>
+          <div class="modal-actions">
+            <button type="button" class="admin-form-btn secondary" id="confirmModalCancel">Cancel</button>
+            <button type="button" class="admin-form-btn" id="confirmModalOk">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Forms Overlay -->
+      <div id="adminModalsOverlay" class="admin-modal-overlay" style="display: none;">
+        <div class="admin-modals-grid">
+          <!-- Add User Form -->
+          <div id="addUserModal" class="admin-modal-content">
+            <span class="close-modal" onclick="closeAdminModal('addUserModal')">&times;</span>
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+              <div class="form-group">
+                <label for="userName">Full Name</label>
+                <input type="text" id="userName" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input type="email" id="userEmail" name="email" required />
+              </div>
+              <div class="form-group">
+                <label for="userPassword">Password</label>
+                <input type="password" id="userPassword" name="password" required />
+              </div>
+              <button type="submit" class="admin-form-btn">Add User</button>
+            </form>
+          </div>
+
+          <!-- Add Product Form -->
+          <div id="addProductModal" class="admin-modal-content">
+            <span class="close-modal" onclick="closeAdminModal('addProductModal')">&times;</span>
+            <h2>Add New Product</h2>
+            <form id="addProductForm">
+              <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="productPrice">Price (₱)</label>
+                <input type="number" id="productPrice" name="price" step="0.01" min="0" required />
+              </div>
+              <div class="form-group">
+                <label for="productCategory">Category</label>
+                <input type="text" id="productCategory" name="category" required />
+              </div>
+              <div class="form-group">
+                <label for="productStock">Stock Quantity</label>
+                <input type="number" id="productStock" name="stock" min="0" required />
+              </div>
+              <button type="submit" class="admin-form-btn">Add Product</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <!-- Top Header -->
       <header class="admin-top-header">
-        <div class="header-left">
-          <h1 id="pageTitle">Dashboard</h1>
-        </div>
         <div class="header-right">
+          <div class="header-user">
+            <div class="header-avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <span class="header-username">Admin</span>
+          </div>
           <span class="current-date" id="currentDate"></span>
         </div>
       </header>
@@ -356,12 +438,13 @@
       });
 
       // Logout function
-      function adminLogout() {
-        if (confirm("Are you sure you want to logout?")) {
-          localStorage.setItem("isAdminLoggedIn", "false");
-          localStorage.removeItem("currentAdmin");
-          window.location.href = "../index.html";
-        }
+      async function adminLogout() {
+        const confirmed = await openConfirmModal("Are you sure you want to logout?");
+        if (!confirmed) return;
+
+        localStorage.setItem("isAdminLoggedIn", "false");
+        localStorage.removeItem("currentAdmin");
+        window.location.href = "../index.html";
       }
 
       // Load dashboard stats

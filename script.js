@@ -140,18 +140,17 @@ if (loginForm) {
       );
 
       if (admin) {
-        // Admin login - set admin session and go to full screen admin dashboard
+        // Admin login - redirect directly to admin dashboard
         localStorage.setItem("isAdminLoggedIn", "true");
         localStorage.setItem("currentAdmin", JSON.stringify(admin));
         showToast("Admin login successful!", "success");
         const loginModal = document.getElementById("loginModal");
         if (loginModal) loginModal.style.display = "none";
-        // Open admin dashboard in full screen - redirect to admin page
         window.location.href = "admin/index.html";
         return;
       }
 
-      // If not admin, try regular user login
+      // Regular user login
       const result = window.authFunctions.loginUser(email, password);
       if (result.success) {
         showToast("Login successful!", "success");
